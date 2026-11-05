@@ -180,6 +180,7 @@ export const zhTW = {
     help: "幫助",
     newTask: "新建任務",
     openProject: "開啟專案…",
+    newInstance: "新增執行個體",
     settings: "設定…",
     toggleWindow: "喚出 / 隱藏視窗",
     refreshMarket: "重新整理外掛市場",

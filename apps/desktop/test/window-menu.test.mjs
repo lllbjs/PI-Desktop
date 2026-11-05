@@ -65,7 +65,7 @@ test("macOS installs a standard application menu before window creation", () => 
   assert.match(menuSource, /Menu\.setApplicationMenu\(null\)/);
   assert.match(
     mainSource,
-    /installApplicationMenu\(\{\s+locale: app\.getLocale\(\),\s+dispatch: dispatchApplicationMenuCommand,\s+dispatchNative: dispatchNativeMenuAction,\s+\}\);/,
+    /installApplicationMenu\(\{\s+locale: app\.getLocale\(\),\s+dispatch: dispatchApplicationMenuCommand,\s+dispatchNative: dispatchNativeMenuAction,\s+openNewInstance: \(\) => openSideBySideInstance\(logger\),\s+\}\);/,
   );
   assert.ok(
     mainSource.indexOf("prewarmPluginLauncher();") < mainSource.indexOf("registerIpc();"),

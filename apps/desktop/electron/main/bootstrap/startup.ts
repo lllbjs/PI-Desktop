@@ -12,6 +12,7 @@ import {
   type NativeMenuAction,
 } from "@pi-desktop/shared";
 import { installApplicationMenu } from "../application-menu";
+import { openSideBySideInstance } from "../new-instance-launch";
 import { installGenUiProtocol } from "../gen-ui-protocol";
 import { installPluginAssetProtocol } from "../plugin-asset-protocol";
 import { installPluginRendererProtocol } from "../plugin-renderer-protocol";
@@ -233,6 +234,7 @@ export function registerApplicationStartup(deps: StartupDependencies): void {
       locale: app.getLocale(),
       dispatch: dispatchApplicationMenuCommand,
       dispatchNative: dispatchNativeMenuAction,
+      openNewInstance: () => openSideBySideInstance(logger),
     });
     // Start the retained launcher as soon as Electron is ready. It can load in
     // parallel with host/plugin boot, so the first post-boot Option+Space does

@@ -178,6 +178,7 @@ export const fr = {
     "help": "Aide",
     "newTask": "Nouvelle tâche",
     "openProject": "Ouvrir le projet…",
+    "newInstance": "Nouvelle instance",
     "settings": "Paramètres…",
     "toggleWindow": "Afficher/Masquer la fenêtre",
     "refreshMarket": "Actualiser la place de marché",

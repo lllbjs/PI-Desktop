@@ -185,6 +185,7 @@ export const en = {
     help: "Help",
     newTask: "New Task",
     openProject: "Open Project…",
+    newInstance: "New Instance",
     settings: "Settings…",
     toggleWindow: "Show/Hide Window",
     refreshMarket: "Refresh marketplace",

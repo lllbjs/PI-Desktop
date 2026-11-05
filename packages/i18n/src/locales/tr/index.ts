@@ -187,6 +187,7 @@ export const tr = {
     help: "Yardım",
     newTask: "Yeni görev",
     openProject: "Proje aç…",
+    newInstance: "Yeni örnek",
     settings: "Ayarlar…",
     toggleWindow: "Pencereyi göster/gizle",
     refreshMarket: "Mağazayı yenile",

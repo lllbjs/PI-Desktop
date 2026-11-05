@@ -187,6 +187,7 @@ export const ko = {
     help: "도움말",
     newTask: "새 작업",
     openProject: "프로젝트 열기…",
+    newInstance: "새 인스턴스",
     settings: "설정…",
     toggleWindow: "창 표시/숨기기",
     refreshMarket: "마켓플레이스 새로 고침",

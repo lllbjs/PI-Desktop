@@ -44,6 +44,15 @@ holds its lock, and the two never share a database, an outbox, or a log tree
 (D599, ADR 0094). An explicit `--user-data-dir` is honored instead, because the
 E2E harnesses point a build at a throwaway profile with it.
 
+A sibling instance is one menu action away: File -> New Instance starts another
+process of the same build with the lowest free `~/.pi-desktop-<n>` as its
+`PI_DESKTOP_DATA_DIR`, its own `--user-data-dir`, and — when the MCP control
+server is on — `PI_DESKTOP_MCP_PORT` offset from the default. It therefore
+shares no lock, database, outbox, log tree, Chromium profile, or port with the
+instance that started it. The action is main-process work rather than a renderer
+command, because the process that opens a sibling is the one that knows its own
+executable, its application-data root, and its port base.
+
 1. Electron main starts
 2. Load English locale defaults
 3. Spawn Rust host-core

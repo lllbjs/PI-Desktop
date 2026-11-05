@@ -177,6 +177,7 @@ export const ptBR = {
     help: "Ajuda",
     newTask: "Nova tarefa",
     openProject: "Abrir projeto…",
+    newInstance: "Nova instância",
     settings: "Configurações…",
     toggleWindow: "Mostrar/Ocultar janela",
     refreshMarket: "Atualizar marketplace",

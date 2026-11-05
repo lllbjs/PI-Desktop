@@ -21,6 +21,12 @@ export type ApplicationMenuOptions = {
   dispatch: (command: AppMenuCommand) => void;
   /** Executes configurable native menu actions when their shortcut is unbound. */
   dispatchNative: (action: NativeMenuAction) => void;
+  /**
+   * Opens a second instance with its own data directory and Chromium profile
+   * (File -> New Instance). Installs that run before the app can spawn a
+   * sibling leave it out, and the item is then simply absent.
+   */
+  openNewInstance?: () => void;
 };
 
 function appCommand(
@@ -57,6 +63,7 @@ export function buildApplicationMenuTemplate({
   developerMode = false,
   dispatch,
   dispatchNative,
+  openNewInstance,
 }: ApplicationMenuOptions): MenuItemConstructorOptions[] {
   const isMac = platform === "darwin";
   const shortcutPlatform = platform as ShortcutPlatform;
@@ -108,6 +115,17 @@ export function buildApplicationMenuTemplate({
           dispatch,
           accelerator("openProject"),
         ),
+        // A sibling instance keeps its own data directory, Chromium profile,
+        // and MCP control port, so it runs beside the one that opened it
+        // (ADR 0094). Spawning is main-process work, not a renderer command.
+        ...(openNewInstance
+          ? ([
+              {
+                label: labels.menu.newInstance,
+                click: () => openNewInstance(),
+              },
+            ] satisfies MenuItemConstructorOptions[])
+          : []),
         ...(!isMac
           ? ([
               { type: "separator" },

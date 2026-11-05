@@ -19,6 +19,7 @@ import {
 } from "@pi-desktop/shared";
 import { catalogs, resolveLocale } from "@pi-desktop/i18n";
 import { installApplicationMenu } from "../application-menu";
+import { openSideBySideInstance } from "../new-instance-launch";
 import { isWindowFullScreen, setWindowFullScreen } from "../window-fullscreen";
 import { createTraySessions } from "../tray-sessions";
 import { createTaskbarUnreadBadge } from "../taskbar-unread-badge";
@@ -697,6 +698,7 @@ export function createApplicationLifecycle({
       developerMode: devMode,
       dispatch: dispatchApplicationMenuCommand,
       dispatchNative: dispatchNativeMenuAction,
+      openNewInstance: () => openSideBySideInstance(logger),
     });
     updateTrayMenu(locale);
   }

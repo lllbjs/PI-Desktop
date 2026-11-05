@@ -180,6 +180,7 @@ export const zhCN = {
     help: "帮助",
     newTask: "新建任务",
     openProject: "打开项目…",
+    newInstance: "新建实例",
     settings: "设置…",
     toggleWindow: "呼出 / 隐藏窗口",
     refreshMarket: "刷新插件市场",
