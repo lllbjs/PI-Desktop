@@ -10,6 +10,7 @@ import { isAbsolute, join, resolve } from "node:path";
 import {
   ErrorCodes,
   IPC,
+  isBrowserAction,
   type ComposerPasteFile,
   type FsChatRefProjectRoot,
   type FsChatRefResolveResult,
@@ -21,7 +22,7 @@ import {
   loadComposerTemplates,
   type ComposerTemplate,
 } from "@pi-desktop/agent-runtime";
-import { remoteWorkspaceForFiles } from "../remote/workspace-file-scope";
+import { remoteWorkspaceForFiles, sessionForFiles } from "../remote/workspace-file-scope";
 import { getActiveRemoteHostsBoot } from "../bootstrap/remote-hosts";
 import { cloneGitRepository } from "../git-clone";
 import {
@@ -676,7 +677,7 @@ handleWithEvent(
     },
   );
 
-  const remoteFileWorkspace = (sessionId?: string) => remoteWorkspaceForFiles(getHost, sessionId);
+  const remoteFileWorkspace = (sessionId?: string) => remoteWorkspaceForFiles(getHost, sessionId, getSidecar);
   const readRemoteFiles = (remote: RemoteWorkspace, operation: WorkspaceFilesRequest["operation"], ref?: string, mimeType?: string) => {
     const boot = getActiveRemoteHostsBoot();
     if (!boot) throw new Error("remote hosts unavailable");
@@ -762,13 +763,8 @@ handleWithEvent(
         errorCode: "UNAVAILABLE",
       });
     }
-    const action = String(input.action ?? "");
-    if (
-      action === "back" ||
-      action === "forward" ||
-      action === "reload" ||
-      action === "stop"
-    ) {
+    const action = input.action;
+    if (isBrowserAction(action)) {
       browserHost.action(action);
     }
     return { ok: true };
@@ -830,9 +826,7 @@ handleWithEvent(
     let worktree: string | undefined;
     let parent: string | undefined;
     if (sessionId) {
-      const { session } = await owner.call<{ session?: { projectPath?: string; worktree?: unknown } }>(
-        "session.get", { id: sessionId, messageLimit: 1 },
-      );
+      const session = await sessionForFiles(getHost, sessionId, getSidecar);
       const projectPath = session?.projectPath?.trim();
       if (session?.worktree) {
         // Chat references and source reads must see the same files as the
@@ -918,7 +912,7 @@ handleWithEvent(
     sessionId: string | undefined,
   ): Promise<string | null> => {
     const id = String(sessionId ?? "").trim();
-    if (!id || !host) return null;
+    if (!id || id.startsWith("native-pi:") || !host) return null;
     try {
       const result = await host.call<{ path: string }>("session.getScratchPath", {
         sessionId: id,
